@@ -1,1 +1,1 @@
-export const EventPattern = 'create_mentor'
+export type EventPattern = 'create_mentor'
