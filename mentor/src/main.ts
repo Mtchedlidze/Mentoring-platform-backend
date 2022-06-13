@@ -10,7 +10,7 @@ async function bootstrap() {
   console.log(process.env.RMQ_URL)
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
     AppModule,
-    MicroserviceFactory.getMicroserViceOptions('mentor'),
+    MicroserviceFactory.getMicroserviceOptions('mentor'),
   )
   await app.listen()
   logger.log(`mentor microservice running`)
