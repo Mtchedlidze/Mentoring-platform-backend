@@ -1,4 +1,3 @@
-import { MentorLoginDto } from './../../../api-gateway/src/mentor/dtos/mentor.dto'
 import { MentorRepository } from './../database/repository/mentor.repository'
 import { MentorRegistrationDto } from './../common/dtos/mentor.dto'
 import { Injectable } from '@nestjs/common'

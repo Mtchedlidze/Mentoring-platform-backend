@@ -1,7 +1,7 @@
 import { Body, Controller, Inject, Post } from '@nestjs/common'
 import { ClientProxy } from '@nestjs/microservices'
 import { firstValueFrom, lastValueFrom } from 'rxjs'
-import { MentorLoginDto, MentorRegistrationDto } from './dtos/mentor.dto'
+import { MentorLoginDto, MentorRegistrationDto } from '../dtos/mentor.dto'
 
 @Controller('mentor')
 export class MentorController {
