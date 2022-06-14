@@ -1,5 +1,5 @@
 import { Controller } from '@nestjs/common'
-import { MessagePattern, Payload } from '@nestjs/microservices'
+import { MessagePattern, Payload, RpcException } from '@nestjs/microservices'
 import { FileService } from 'src/services/file.service'
 
 @Controller()
@@ -7,9 +7,15 @@ export class FileStorageController {
   constructor(private readonly fileStorageService: FileService) {}
 
   @MessagePattern('upload')
-  upload(@Payload('file') file: Express.Multer.File) {
-    console.log(file)
-    this.fileStorageService.upload(file)
+  async upload(@Payload('file') file: Express.Multer.File) {
+    try {
+      return await this.fileStorageService.upload(file)
+    } catch ({ message, status }) {
+      throw new RpcException({
+        message,
+        status,
+      })
+    }
   }
   @MessagePattern('ping')
   ping() {

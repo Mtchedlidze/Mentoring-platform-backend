@@ -1,11 +1,33 @@
 import { Injectable } from '@nestjs/common'
 import { S3 } from 'aws-sdk'
+import { randomBytes } from 'crypto'
+import { InjectAwsService } from 'nest-aws-sdk'
 
 @Injectable()
 export class FileService {
-  private readonly s3 = new S3({ region: process.env.AWS_REGION })
+  constructor(@InjectAwsService(S3) private readonly s3: S3) {}
+  public async upload(file: Express.Multer.File) {
+    const { originalname, buffer } = file
+    const fileExtension = originalname.split('.').pop()
+    const uploadedFile = await this.s3
+      .upload({
+        Bucket: 'mentoring2',
+        Key: this.generateRandomFileKey() + `.${fileExtension}`,
+        Body: Buffer.from(buffer['data']),
+      })
+      .promise()
 
-  upload(file: Express.Multer.File) {
-    const { originalname, buffer, filename } = file
+    return this.generateFilePublicUrl(uploadedFile)
+  }
+
+  private generateFilePublicUrl(file: S3.ManagedUpload.SendData) {
+    const { Key } = file
+    const bucketUrl = process.env.S3_BUCKET_URL
+
+    return { url: bucketUrl + Key }
+  }
+
+  private generateRandomFileKey(): string {
+    return randomBytes(16).toString('hex')
   }
 }

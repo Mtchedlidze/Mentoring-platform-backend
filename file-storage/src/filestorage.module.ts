@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
+import { S3 } from 'aws-sdk'
 import { AwsSdkModule } from 'nest-aws-sdk'
 import { FileStorageController } from './controllers/filestorage.controller'
 import { FileService } from './services/file.service'
@@ -16,9 +17,12 @@ import { FileService } from './services/file.service'
         }),
         inject: [ConfigService],
       },
+      services: [S3],
     }),
   ],
   controllers: [FileStorageController],
   providers: [FileService],
 })
-export class FileStorageModule {}
+export class FileStorageModule {
+  constructor(private configService: ConfigService) {}
+}
