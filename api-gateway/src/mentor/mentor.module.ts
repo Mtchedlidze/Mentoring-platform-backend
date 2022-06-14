@@ -1,7 +1,8 @@
+import { ConfigService } from '@nestjs/config'
 import { MentorController } from './mentor.controller'
 import { Module } from '@nestjs/common'
 import { ClientsModule } from '@nestjs/microservices'
-import { MicroserviceFactory } from '../microservice.factory'
+import { MicroserviceFactory } from '../factory/microservice.factory'
 
 @Module({
   imports: [

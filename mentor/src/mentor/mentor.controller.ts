@@ -1,4 +1,7 @@
-import { MentorRegistrationDto } from './../common/dtos/mentor.dto'
+import {
+  MentorLoginDto,
+  MentorRegistrationDto,
+} from './../common/dtos/mentor.dto'
 import { EventPattern, Payload } from '@nestjs/microservices'
 import { Controller } from '@nestjs/common'
 import { MentorService } from './mentor.service'
@@ -11,7 +14,13 @@ export class MentorController {
   async getRegistrationRequest(
     @Payload('mentorRegistration') mentorRegistrationDto: MentorRegistrationDto,
   ) {
-    const a = await this.mentorService.mentorRegistration(mentorRegistrationDto)
-    return a
+    return await this.mentorService.mentorRegistration(mentorRegistrationDto)
+  }
+
+  @EventPattern('mentorLogin')
+  async getLoginRequest(
+    @Payload('mentorLogin') mentorLoginDto: MentorLoginDto,
+  ) {
+    // return await this.mentorService.mentorLogin(mentorLoginDto)
   }
 }

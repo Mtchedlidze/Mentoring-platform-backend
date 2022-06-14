@@ -1,6 +1,8 @@
+import { ConfigService } from '@nestjs/config'
 import { Injectable } from '@nestjs/common'
 import { ClientProviderOptions, Transport } from '@nestjs/microservices'
-import config from './config/config'
+import config from '../config/config'
+console.log(process.env.RMQ_URL)
 
 @Injectable()
 export class MicroserviceFactory {
@@ -21,6 +23,8 @@ export class MicroserviceFactory {
         },
       },
     }
+    console.log(microserviceOptions, 'es')
+
     return microserviceOptions
   }
 }

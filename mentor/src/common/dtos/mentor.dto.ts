@@ -22,3 +22,13 @@ export class MentorRegistrationDto {
   @IsOptional()
   photo_url: string
 }
+
+export class MentorLoginDto {
+  @IsNotEmpty()
+  @IsString()
+  email: string
+
+  @IsNotEmpty()
+  @IsString()
+  password: string
+}

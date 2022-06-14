@@ -1,7 +1,7 @@
 import { Body, Controller, Inject, Post } from '@nestjs/common'
 import { ClientProxy } from '@nestjs/microservices'
 import { firstValueFrom, lastValueFrom } from 'rxjs'
-import { MentorRegistrationDto } from './dtos/mentor.dto'
+import { MentorLoginDto, MentorRegistrationDto } from './dtos/mentor.dto'
 
 @Controller('mentor')
 export class MentorController {
@@ -11,11 +11,22 @@ export class MentorController {
   async mentorRegistration(
     @Body() mentorRegistrationDto: MentorRegistrationDto,
   ) {
-    const res = await lastValueFrom(
+    return await lastValueFrom(
       this.client.send('mentorRegistration', {
         mentorRegistration: mentorRegistrationDto,
       }),
     )
-    return res
+  }
+
+  @Post('login')
+  async mentorLogin(@Body() mentorLoginDto: MentorLoginDto) {
+    console.log(
+      '🚀 ~ file: mentor.controller.ts ~ line 23 ~ MentorController ~ mentorLogin ~ mentorLoginDto',
+      mentorLoginDto,
+    )
+
+    return await lastValueFrom(
+      this.client.send('mentorLogin', { mentorLogin: mentorLoginDto }),
+    )
   }
 }

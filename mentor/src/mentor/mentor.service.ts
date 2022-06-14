@@ -1,3 +1,4 @@
+import { MentorLoginDto } from './../../../api-gateway/src/mentor/dtos/mentor.dto'
 import { MentorRepository } from './../database/repository/mentor.repository'
 import { MentorRegistrationDto } from './../common/dtos/mentor.dto'
 import { Injectable } from '@nestjs/common'
@@ -9,4 +10,8 @@ export class MentorService {
   async mentorRegistration(mentorRegistrationDto: MentorRegistrationDto) {
     return await this.mentorRepository.registration(mentorRegistrationDto)
   }
+
+  // async mentorLogin(mentorLoginDto: MentorLoginDto) {
+  //   return await this.mentorRepository.registration(mentorLoginDto)
+  // }
 }

@@ -11,9 +11,7 @@ export class MicroserviceFactory {
       transport: Transport.RMQ,
       options: {
         queue,
-        urls: [
-          'amqps://emthybmp:UjmwELIz4Sz1xIVk1uLa0ev_DaMKjX-Y@shark.rmq.cloudamqp.com/emthybmp',
-        ],
+        urls: [config().microservice.rmq_url],
         queueOptions: {
           durable: false,
         },

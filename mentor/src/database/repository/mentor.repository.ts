@@ -19,4 +19,8 @@ export class MentorRepository {
       .findOne({ email: mentorRegistrationDto.email })
       .select(['-password', '-_id'])
   }
+
+  async findOne(email: string): Promise<Mentor> {
+    return await this.mentorModel.findOne({ email })
+  }
 }
