@@ -1,5 +1,6 @@
 import { NestMicroserviceOptions } from '@nestjs/common/interfaces/microservices/nest-microservice-options.interface'
 import { ClientProviderOptions, Transport } from '@nestjs/microservices'
+import config from './config/config'
 
 export class MicroserviceOptionsFactory {
   static getMicroserviceOptions(
@@ -11,9 +12,9 @@ export class MicroserviceOptionsFactory {
       transport: Transport.RMQ,
       options: {
         queueOptions: {
-          dirable: false,
+          durable: false,
         },
-        urls: [process.env.RMQ_URL],
+        urls: [config().microservice.rmq_url],
         queue,
       },
     }

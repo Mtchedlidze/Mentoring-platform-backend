@@ -1,3 +1,5 @@
+import { AllExceptionsFilter } from './filters/all.exception.filter'
+import { APP_FILTER } from '@nestjs/core'
 import { MentorController } from './controllers/mentor.controller'
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
@@ -17,5 +19,11 @@ import { MicroserviceOptionsFactory } from './microservice.factory'
     ]),
   ],
   controllers: [FileController, MentorController],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: AllExceptionsFilter,
+    },
+  ],
 })
 export class AppModule {}

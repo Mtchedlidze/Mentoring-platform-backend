@@ -2,7 +2,7 @@ import {
   MentorLoginDto,
   MentorRegistrationDto,
 } from './../common/dtos/mentor.dto'
-import { EventPattern, Payload } from '@nestjs/microservices'
+import { EventPattern, Payload, RpcException } from '@nestjs/microservices'
 import { Controller } from '@nestjs/common'
 import { MentorService } from './mentor.service'
 

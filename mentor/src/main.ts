@@ -3,7 +3,7 @@ import { NestFactory } from '@nestjs/core'
 import { MicroserviceOptions, Transport } from '@nestjs/microservices'
 import { AppModule } from './app.module'
 import { MicroserviceFactory } from './microservice.factory'
-
+import { AllExceptionsFilter } from './filters/all.exception.filter'
 const logger: Logger = new Logger('mentor.microservice')
 
 async function bootstrap() {
@@ -11,6 +11,7 @@ async function bootstrap() {
     AppModule,
     MicroserviceFactory.getMicroserviceOptions('mentor'),
   )
+  app.useGlobalFilters(new AllExceptionsFilter())
   await app.listen()
   logger.log(`mentor microservice running`)
 }
