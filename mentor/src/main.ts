@@ -7,7 +7,6 @@ import { MicroserviceFactory } from './microservice.factory'
 const logger: Logger = new Logger('mentor.microservice')
 
 async function bootstrap() {
-  console.log(process.env.RMQ_URL)
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
     AppModule,
     MicroserviceFactory.getMicroserViceOptions('mentor'),
