@@ -1,5 +1,4 @@
 import { ClientProviderOptions, Transport } from '@nestjs/microservices'
-import config from '../config/config'
 
 export class MicroServiceFactory {
   static getMicroServiceOptions(

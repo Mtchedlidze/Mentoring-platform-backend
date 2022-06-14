@@ -6,9 +6,7 @@ export class MicroServiceFactory {
     return {
       transport: Transport.RMQ,
       options: {
-        urls: [
-          'amqps://emthybmp:UjmwELIz4Sz1xIVk1uLa0ev_DaMKjX-Y@shark.rmq.cloudamqp.com/emthybmp',
-        ],
+        urls: [config().microservice.rbmq_url],
         queue,
         queueOptions: {
           durable: false,
