@@ -1,8 +1,10 @@
 import { Transport } from '@nestjs/microservices';
 import config from '../config/config';
 
+console.log(config().microservice.rbmq_url);
+
 export class MicroServiceFactory {
-  get(url: string, queue: string): object {
+  get(queue: string): object {
     return {
       transport: Transport.RMQ,
       options: {

@@ -6,6 +6,9 @@ import { StudentRegistrationDTO } from './dto/student-registration.dto';
 @Injectable()
 export class StudentService {
   constructor(private readonly studentRepository: StudentRepository) {}
+  async findStudentByEmail(email: string) {
+    return this.studentRepository.findStudentByEmail_Auth(email);
+  }
 
   async registerStudent(studentDto: StudentRegistrationDTO) {
     const existedStudent = await this.studentRepository.findStudentByEmail(

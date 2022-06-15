@@ -1,10 +1,18 @@
-import { Injectable } from '@nestjs/common'
+import { Inject, Injectable, RequestTimeoutException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
+import { ClientProxy } from '@nestjs/microservices'
+import {
+  catchError,
+  lastValueFrom,
+  throwError,
+  timeout,
+  TimeoutError,
+} from 'rxjs'
 
 @Injectable()
 export class StudentAuthService {
   constructor(
-    // private usersService: UsersService,
+    @Inject('STUDENT_SERVICE') private readonly client: ClientProxy,
     private jwtService: JwtService,
   ) {}
 
@@ -12,9 +20,15 @@ export class StudentAuthService {
     email: string,
     password: string,
   ): Promise<{ token: string }> {
-    if (password === 'password') {
+    const validatedStudent = await lastValueFrom(
+      this.client.send('studentAuthentication', {
+        studentAuth: email,
+      }),
+    )
+
+    if (validatedStudent && password === validatedStudent.password) {
       const token = this.jwtService.sign(
-        { password, email },
+        { name: validatedStudent.full_name, email, role: 'student' },
         {
           expiresIn: '24h',
           secret: process.env.SECRET,

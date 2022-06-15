@@ -9,7 +9,7 @@ import { AllExceptionsFilter } from './filters/all.exception.filter';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    MongooseModule.forRoot(config().database.db_url),
+    MongooseModule.forRoot(config().database.db_uri),
     CoreModule,
   ],
   providers: [

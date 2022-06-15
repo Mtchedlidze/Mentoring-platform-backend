@@ -10,20 +10,25 @@ import {
 import { ClientProxy } from '@nestjs/microservices'
 import { lastValueFrom } from 'rxjs'
 import { LocalAuthGuard } from 'src/auth/guards/local-auth.guard'
-import { StudentAuthService } from 'src/auth/studentAuth.service'
-import { StudentLoginDTO } from 'src/dto/student-login.dto'
 import { StudentRegistrationDTO } from '../dto/student.register.dto'
 
 @Controller('api')
 export class StudentController {
   constructor(
     @Inject('STUDENT_SERVICE') private readonly client: ClientProxy,
-    private readonly studentAuthService: StudentAuthService,
   ) {}
 
   @Post('register')
   async registration(@Body() studentRegistrationDTO: StudentRegistrationDTO) {
     try {
+      // get hashed password from hash-microservice and alter raw password with it
+      const hashedPass = await lastValueFrom(
+        this.client.send('randomHash', {
+          password: studentRegistrationDTO.password,
+        }),
+      )
+      console.log(hashedPass)
+
       return lastValueFrom(
         this.client.send('studentRegistration', {
           studentRegistration: studentRegistrationDTO,
@@ -39,13 +44,7 @@ export class StudentController {
   async login(@Request() req) {
     try {
       const token = req.user
-      return
-      // return this.studentAuthService.login(studentLoginDto)
-      // return lastValueFrom(
-      //   this.client.send('studentAuthentication', {
-      //     studentAuth: studentLoginDto,
-      //   }),
-      // )
+      return token
     } catch (err) {
       throw new HttpException(err.message, err.status)
     }

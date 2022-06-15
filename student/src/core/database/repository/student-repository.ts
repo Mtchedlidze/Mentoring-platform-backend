@@ -14,6 +14,10 @@ export class StudentRepository {
       .select(['full_name', 'email']);
     return student;
   }
+  async findStudentByEmail_Auth(email: string) {
+    const student = await this.model.findOne({ email }).select(['-__v']);
+    return student;
+  }
 
   async registerStudent(studentDto: StudentRegistrationDTO) {
     const registeredStudent = await this.model.create(studentDto);

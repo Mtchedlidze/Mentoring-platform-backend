@@ -1,6 +1,4 @@
-import { NestMicroserviceOptions } from '@nestjs/common/interfaces/microservices/nest-microservice-options.interface'
 import { ClientProviderOptions, Transport } from '@nestjs/microservices'
-import config from './config/config'
 
 export class MicroserviceOptionsFactory {
   static getMicroserviceOptions(
@@ -14,7 +12,9 @@ export class MicroserviceOptionsFactory {
         queueOptions: {
           durable: false,
         },
-        urls: [config().microservice.rbmq_url],
+        urls: [
+          'amqps://emthybmp:UjmwELIz4Sz1xIVk1uLa0ev_DaMKjX-Y@shark.rmq.cloudamqp.com/emthybmp',
+        ],
         queue,
       },
     }
