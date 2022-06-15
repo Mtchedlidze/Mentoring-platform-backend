@@ -1,4 +1,5 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { RpcException } from '@nestjs/microservices';
 import { StudentRepository } from '../database/repository/student-repository';
 import { StudentRegistrationDTO } from './dto/student-registration.dto';
 
@@ -11,11 +12,7 @@ export class StudentService {
       studentDto.email,
     );
 
-    if (existedStudent)
-      throw new HttpException(
-        'Email is already registered',
-        HttpStatus.BAD_REQUEST,
-      );
+    if (existedStudent) throw new RpcException('Email is already registered');
 
     let registeredStudent = await this.studentRepository.registerStudent(
       studentDto,

@@ -1,10 +1,10 @@
+import config from './core/utils/config/config';
 import { Module } from '@nestjs/common';
-import { StudentModule } from './core/student/student.module';
-import { DatabaseModule } from './core/database/database.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CoreModule } from './core/core.module';
-import config from './core/utils/config/config';
+import { APP_FILTER } from '@nestjs/core';
+import { AllExceptionsFilter } from './filters/all.exception.filter';
 
 @Module({
   imports: [
@@ -12,6 +12,12 @@ import config from './core/utils/config/config';
     MongooseModule.forRoot(config().database.db_url),
     CoreModule,
   ],
-  providers: [ConfigService],
+  providers: [
+    ConfigService,
+    {
+      provide: APP_FILTER,
+      useClass: AllExceptionsFilter,
+    },
+  ],
 })
 export class AppModule {}

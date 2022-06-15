@@ -10,7 +10,7 @@ export class StudentRepository {
   ) {}
   async findStudentByEmail(email: string) {
     const student = await this.model
-      .findById({ email })
+      .findOne({ email })
       .select(['full_name', 'email']);
     return student;
   }

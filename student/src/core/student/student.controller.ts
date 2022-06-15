@@ -1,5 +1,11 @@
 import { Controller } from '@nestjs/common';
-import { EventPattern, Payload, RpcException } from '@nestjs/microservices';
+import {
+  EventPattern,
+  MessagePattern,
+  Payload,
+  RpcException,
+} from '@nestjs/microservices';
+import { StudentAuthDTO } from './dto/student-auth.dto';
 import { StudentRegistrationDTO } from './dto/student-registration.dto';
 import { StudentService } from './student.service';
 
@@ -7,14 +13,19 @@ import { StudentService } from './student.service';
 export class StudentController {
   constructor(private readonly studentService: StudentService) {}
 
-  @EventPattern('studentRegistration')
+  @MessagePattern('studentRegistration')
   getRegistrationRequest(
-    @Payload('studentRegistration') studentDto: StudentRegistrationDTO,
+    @Payload('studentRegistration') studentRegisterDto: StudentRegistrationDTO,
   ) {
     try {
-      return this.studentService.registerStudent(studentDto);
+      return this.studentService.registerStudent(studentRegisterDto);
     } catch (err) {
       return new RpcException(err.message);
     }
+  }
+
+  @MessagePattern('studentAuthentication')
+  getAuthRequest(@Payload('studentAuth') studentAuthDto: StudentAuthDTO) {
+    return studentAuthDto;
   }
 }
