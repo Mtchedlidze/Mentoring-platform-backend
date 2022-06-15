@@ -11,7 +11,7 @@ export class MicroserviceOptionsFactory {
       transport: Transport.RMQ,
       options: {
         queueOptions: {
-          dirable: false,
+          durable: false,
         },
         urls: [process.env.RMQ_URL],
         queue,
