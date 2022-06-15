@@ -3,6 +3,7 @@ import { JwtModule } from '@nestjs/jwt'
 import { ClientsModule } from '@nestjs/microservices'
 import { PassportModule } from '@nestjs/passport'
 import { MicroserviceOptionsFactory } from 'src/microservice.factory'
+import { UpdateGuard } from './guards/update.guard'
 import { JwtStrategy } from './strategy/jwt.strategy'
 import { LocalStrategy } from './strategy/local.strategy'
 import { StudentAuthService } from './studentAuth.service'
@@ -21,7 +22,7 @@ import { StudentAuthService } from './studentAuth.service'
       signOptions: { expiresIn: '60s' },
     }),
   ],
-  providers: [StudentAuthService, JwtStrategy, LocalStrategy],
+  providers: [StudentAuthService, JwtStrategy, LocalStrategy, UpdateGuard],
   exports: [StudentAuthService],
 })
 export class AuthModule {}

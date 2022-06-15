@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 import { StudentRepository } from '../database/repository/student-repository';
 import { StudentRegistrationDTO } from './dto/student-registration.dto';
+import { StudentUpdateDTO } from './dto/student-update.dto';
 
 @Injectable()
 export class StudentService {
@@ -22,5 +23,10 @@ export class StudentService {
     );
 
     return registeredStudent;
+  }
+
+  async updateStudent(studentUpdateDto: StudentUpdateDTO) {
+    console.log(studentUpdateDto, ' service');
+    return this.studentRepository.updateStudent(studentUpdateDto);
   }
 }
