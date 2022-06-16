@@ -1,3 +1,5 @@
+import { MicroserviceFactory } from 'src/microservice.factory'
+import { ClientsModule } from '@nestjs/microservices'
 import { MongooseModule } from '@nestjs/mongoose'
 import { DatabaseModule } from './database/database.module'
 import { MentorModule } from './mentor/mentor.module'
@@ -12,6 +14,7 @@ import { AllExceptionsFilter } from './filters/all.exception.filter'
     ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRoot(config().database.db_url),
     MentorModule,
+    
   ],
   providers: [
     ConfigService,

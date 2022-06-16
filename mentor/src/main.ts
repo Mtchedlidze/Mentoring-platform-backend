@@ -9,7 +9,7 @@ const logger: Logger = new Logger('mentor.microservice')
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
     AppModule,
-    MicroserviceFactory.getMicroserviceOptions('mentor'),
+    MicroserviceFactory.getMicroserviceOptions('mentors'),
   )
   app.useGlobalFilters(new AllExceptionsFilter())
   await app.listen()

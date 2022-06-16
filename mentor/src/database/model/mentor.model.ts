@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import { Document } from 'mongoose'
 import { softDeletePlugin } from 'soft-delete-plugin-mongoose'
+import { Role } from '../constants/enum'
 
 export type MentorDocument = Mentor & Document
 
@@ -23,6 +24,9 @@ export class Mentor {
 
   @Prop({ type: String })
   photo_url?: string
+
+  @Prop({ enum: Role, default: Role.MENTOR })
+  role: Role
 }
 
 export const MentorSchema =
