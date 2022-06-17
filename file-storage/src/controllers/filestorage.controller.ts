@@ -17,8 +17,9 @@ export class FileStorageController {
       })
     }
   }
-  @MessagePattern('ping')
-  ping() {
-    return 'pong'
+
+  @MessagePattern('delete')
+  deleteFile(@Payload('key') key: string) {
+    return this.fileStorageService.deleteFile(key)
   }
 }

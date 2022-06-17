@@ -1,1 +1,1 @@
-export type fileStorageEvents = ''
+export type fileStorageEvents = 'upload' | 'delete'

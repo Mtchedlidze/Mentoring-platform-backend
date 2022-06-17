@@ -19,6 +19,9 @@ export class FileService {
 
     return this.generateFilePublicUrl(uploadedFile)
   }
+  public deleteFile(key: string) {
+    return this.s3.deleteObject({ Key: key, Bucket: 'mentoring2' }).promise()
+  }
 
   private generateFilePublicUrl(file: S3.ManagedUpload.SendData) {
     const { Key } = file
