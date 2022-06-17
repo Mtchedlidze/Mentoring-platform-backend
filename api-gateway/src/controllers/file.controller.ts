@@ -1,5 +1,6 @@
 import {
   Controller,
+  HttpException,
   Inject,
   Post,
   UploadedFile,
@@ -7,6 +8,7 @@ import {
 } from '@nestjs/common'
 import { ClientProxy } from '@nestjs/microservices'
 import { FileInterceptor } from '@nestjs/platform-express'
+import { lastValueFrom } from 'rxjs'
 
 @Controller()
 export class FileController {
@@ -14,10 +16,12 @@ export class FileController {
 
   @Post()
   @UseInterceptors(FileInterceptor('file'))
-  upload(@UploadedFile() file: Express.Multer.File) {
-    this.client.send('upload', { file }).subscribe({
-      next: (data) => console.log(data),
-      error: (err) => console.log(err),
-    })
+  async upload(@UploadedFile() file: Express.Multer.File) {
+    try {
+      return await lastValueFrom(this.client.send('upload', { file }))
+    } catch (error) {
+      console.log(error)
+      // throw new HttpException(error)
+    }
   }
 }
