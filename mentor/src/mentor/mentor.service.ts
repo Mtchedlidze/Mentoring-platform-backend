@@ -47,23 +47,22 @@ export class MentorService {
   async userUpdate(email: string, updateOptions: UpdateUserDto) {
     let updatePassword: string, updateSalt: string
     if (updateOptions.password) {
+      Logger.debug('here2')
       const { hash, salt } = await lastValueFrom(
         this.client.send('randomHash', {
           password: updateOptions.password,
         }),
       )
+
       updatePassword = hash
       updateSalt = salt
     }
 
-    return await this.mentorRepository.userUpdate(
-      email,
-      {
-        ...updateOptions,
-        password: updatePassword,
-      },
-      updateSalt,
-    )
+    return await this.mentorRepository.userUpdate(email, {
+      ...updateOptions,
+      password: updatePassword,
+      salt: updateSalt,
+    })
   }
 
   async userDelete(email: string) {

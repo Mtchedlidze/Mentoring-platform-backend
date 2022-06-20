@@ -49,7 +49,7 @@ export class MentorController {
 
   @Roles(Role.MENTOR)
   @UseGuards(JwtAuthGuard, RolesGuard, UpdateGuard)
-  @UseInterceptors(UpdateInterceptor)
+  // @UseInterceptors(UpdateInterceptor)
   @Put('update/:email')
   async update(
     @Body() updateUserDto: UpdateUserDto,

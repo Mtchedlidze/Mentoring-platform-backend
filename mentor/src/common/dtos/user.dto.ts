@@ -4,15 +4,20 @@ export class UpdateUserDto {
   @IsOptional()
   @IsNotEmpty()
   @IsString()
-  full_name: string
+  full_name?: string
 
   @IsOptional()
   @IsNotEmpty()
   @IsString()
-  password: string
+  password?: string
 
   @IsOptional()
   @IsNotEmpty()
   @IsString()
-  bio: string
+  salt?: string
+
+  @IsOptional()
+  @IsNotEmpty()
+  @IsString()
+  bio?: string
 }

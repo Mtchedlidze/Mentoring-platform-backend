@@ -22,10 +22,10 @@ export class MentorRepository {
       .select(['-password', '-_id', '-salt'])
   }
 
-  userUpdate(email: string, updateOptions: UpdateUserDto, salt: string) {
+  async userUpdate(email: string, updateOptions: UpdateUserDto) {
     return this.mentorModel.updateOne(
       { email, isDeleted: false },
-      { ...updateOptions, salt },
+      updateOptions,
     )
   }
 
