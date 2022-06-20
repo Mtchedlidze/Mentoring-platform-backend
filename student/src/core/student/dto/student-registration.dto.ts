@@ -4,4 +4,6 @@ export class StudentRegistrationDTO {
   email: string;
 
   password: string;
+
+  salt: string;
 }

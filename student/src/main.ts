@@ -10,6 +10,7 @@ async function bootstrap() {
     AppModule,
     new MicroServiceFactory().get('student'),
   );
+
   await app.listen().then(() => logger.verbose('Microservice is listening'));
 }
 

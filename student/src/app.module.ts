@@ -5,6 +5,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { CoreModule } from './core/core.module';
 import { APP_FILTER } from '@nestjs/core';
 import { AllExceptionsFilter } from './filters/all.exception.filter';
+import { ClientsModule } from '@nestjs/microservices';
+import { MicroserviceOptionsFactory } from './core/student/microservice.factory';
 
 @Module({
   imports: [

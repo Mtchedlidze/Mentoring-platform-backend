@@ -3,18 +3,23 @@ import {
   Controller,
   HttpException,
   Inject,
+  Logger,
   Param,
   Post,
   Put,
   Request,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common'
 import { ClientProxy } from '@nestjs/microservices'
 import { lastValueFrom } from 'rxjs'
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard'
 import { LocalAuthGuard } from 'src/auth/guards/local-auth.guard'
 import { UpdateGuard } from 'src/auth/guards/update.guard'
+import { UpdateInterceptor } from 'src/auth/interceptor/update.interceptor'
+import { Roles } from 'src/auth/roles/roles.decorator'
 import { StudentUpdateDTO } from 'src/dto/student-update.dto'
+import { Role } from 'src/utils/constants/enum'
 import { StudentRegistrationDTO } from '../dto/student.register.dto'
 
 @Controller('api')
@@ -26,21 +31,15 @@ export class StudentController {
   @Post('register')
   async registration(@Body() studentRegistrationDTO: StudentRegistrationDTO) {
     try {
-      // get hashed password from hash-microservice and alter raw password with it
-      const hashedPass = await lastValueFrom(
-        this.client.send('randomHash', {
-          password: studentRegistrationDTO.password,
-        }),
-      )
-      console.log(hashedPass)
-
       return lastValueFrom(
         this.client.send('studentRegistration', {
-          studentRegistration: studentRegistrationDTO,
+          studentRegistration: {
+            ...studentRegistrationDTO,
+          },
         }),
       )
     } catch (err) {
-      throw new HttpException(err.message, err.status)
+      Logger.error(err)
     }
   }
 
@@ -55,7 +54,9 @@ export class StudentController {
     }
   }
 
+  @Roles(Role.ADMIN)
   @UseGuards(JwtAuthGuard, UpdateGuard)
+  @UseInterceptors(UpdateInterceptor)
   @Put('update/:email')
   async update(
     @Param('email') email: string,
