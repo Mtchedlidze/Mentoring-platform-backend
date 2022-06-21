@@ -7,6 +7,7 @@ import {
   Logger,
 } from '@nestjs/common'
 import { HttpAdapterHost } from '@nestjs/core'
+import { RpcException } from '@nestjs/microservices'
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {

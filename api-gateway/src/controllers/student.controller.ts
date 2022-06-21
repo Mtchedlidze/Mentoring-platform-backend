@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   HttpException,
   Inject,
   Logger,
@@ -15,6 +16,7 @@ import { ClientProxy } from '@nestjs/microservices'
 import { lastValueFrom } from 'rxjs'
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard'
 import { LocalAuthGuard } from 'src/auth/guards/local-auth.guard'
+import { RolesGuard } from 'src/auth/guards/role.guard'
 import { UpdateGuard } from 'src/auth/guards/update.guard'
 import { UpdateInterceptor } from 'src/auth/interceptor/update.interceptor'
 import { Roles } from 'src/auth/roles/roles.decorator'
@@ -54,8 +56,8 @@ export class StudentController {
     }
   }
 
-  @Roles(Role.ADMIN)
-  @UseGuards(JwtAuthGuard, UpdateGuard)
+  @Roles(Role.MENTOR)
+  @UseGuards(JwtAuthGuard, RolesGuard, UpdateGuard)
   @UseInterceptors(UpdateInterceptor)
   @Put('update/:email')
   async update(
@@ -65,6 +67,17 @@ export class StudentController {
     return lastValueFrom(
       this.client.send('studentUpdate', {
         student_update: { email, ...studentUpdateDTO },
+      }),
+    )
+  }
+
+  @Roles(Role.MENTOR)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Delete('delete/:email')
+  async delete(@Param('email') email: string) {
+    return lastValueFrom(
+      this.client.send('studentDelete', {
+        student_delete: email,
       }),
     )
   }

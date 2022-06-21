@@ -25,11 +25,18 @@ export class StudentRepository {
     const registeredStudent = await this.model.create(studentDto);
     return registeredStudent;
   }
+
   async updateStudent(studentUpdateDto: StudentUpdateDTO) {
     const registeredStudent = await this.model.updateOne(
       { email: studentUpdateDto.email },
       { ...studentUpdateDto },
     );
     return registeredStudent;
+  }
+
+  async deleteStudent(email: string) {
+    console.log(email);
+
+    return this.model.softDelete({ email });
   }
 }

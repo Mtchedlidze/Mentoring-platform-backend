@@ -22,7 +22,6 @@ export class UpdateGuard implements CanActivate {
       if (!unmodified) return true
 
       const updatedAt = student.updatedAt.toISOString()
-
       return unmodified <= updatedAt ? true : false
     } catch (e) {
       console.log(e)

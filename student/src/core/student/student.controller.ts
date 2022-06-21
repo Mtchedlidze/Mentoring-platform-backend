@@ -28,6 +28,12 @@ export class StudentController {
   getUpdateREquest(
     @Payload('student_update') studentUpdateDto: StudentUpdateDTO,
   ) {
+    console.log(studentUpdateDto, 'controller');
     return this.studentService.updateStudent(studentUpdateDto);
+  }
+
+  @MessagePattern('studentDelete')
+  getDeleteREquest(@Payload('student_delete') email: string) {
+    return this.studentService.deleteStudent(email);
   }
 }

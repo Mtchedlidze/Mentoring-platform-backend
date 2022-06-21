@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { softDeletePlugin } from 'soft-delete-plugin-mongoose';
+import { Role } from '../../utils/constants/role-enum';
 
 export type StudentDocument = Student & Document;
 
@@ -23,6 +24,9 @@ export class Student {
 
   @Prop({ type: Number })
   course_id?: number;
+
+  @Prop({ enum: Role, default: Role.STUDENT })
+  role: Role;
 }
 
 export const StudentSchema =

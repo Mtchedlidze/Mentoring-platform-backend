@@ -38,7 +38,28 @@ export class StudentService {
   }
 
   async updateStudent(studentUpdateDto: StudentUpdateDTO) {
-    console.log(studentUpdateDto, ' service');
-    return this.studentRepository.updateStudent(studentUpdateDto);
+    let password: string;
+    let updatedSalt: string;
+
+    console.log(studentUpdateDto, 'service');
+    if (studentUpdateDto.password) {
+      const { hash, salt } = await lastValueFrom(
+        this.clientHash.send('randomHash', {
+          password: studentUpdateDto.password,
+        }),
+      );
+      password = hash;
+      updatedSalt = salt;
+    }
+
+    return this.studentRepository.updateStudent({
+      ...studentUpdateDto,
+      password,
+      salt: updatedSalt,
+    });
+  }
+
+  async deleteStudent(email: string) {
+    return this.studentRepository.deleteStudent(email);
   }
 }
